@@ -91,7 +91,7 @@ competition:
 
 - **official scoring data in JSON format** similar to `raw_data/official_scores.json`. It should have at least the following minimal structure, although additional keys are allowed to be present (as in the current json, but will not be used):
 
-```json
+```
 [
     {
         "name": "Smith, John", // Competitor name in last, first format
