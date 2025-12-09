@@ -169,7 +169,7 @@ Some notes on the sentiment scoring and labels:
     - Otherwise, we assume it is neutral (the only other output) and map to 0.5
 - `icl_ollama`: we design this method around feeding the below prompt to `qwen3:0.6b` (small model with relatively quick turn-around time i.e. 6 hours on limited GPU hardware <8GB VRAM)
     - We ask the LLM to classify the comment with a label, provide a confidence score (between 0-1) and also a short rationale (for debugging/interpretablity)
-    - Given this is a modern LLM and we believe it has the capability of doing this, we introduce an additional label "irrelevant" and instructions to only classify comments directly related to the performer or performance. This is useful as, in this particular competition (Chopin 2025), the results were highly contentious and many negative comments were posted regarding the competition itself and jury (which would have unfairly penalized competitors in our scoring, since such comments would most likely be classified as negative)
+    - Given this is a modern LLM and so we believe it has the capability of doing this versus the other methods, we introduce an additional label "irrelevant" and instructions to only classify comments directly related to the performer or performance. This is useful as, in this particular competition (Chopin 2025), the results were highly contentious and many negative comments were posted regarding the competition itself and jury (which would have unfairly penalized competitors in our scoring, since such comments would most likely be classified as negative)
     - Qwen3 models have a tendency to spend too much time repeatively thinking - explicitly telling it to not think seems to cut down on the processing time.
 
 Input prompt to `qwen3:0.6b`:
@@ -185,6 +185,30 @@ Input prompt to `qwen3:0.6b`:
     TEXT:
     {text}
 ```
+
+And an example sentiment-annotated comment using the Ollama pipeline, showing the abilty to interpret complex comments with music-specific terms:
+```json
+{
+    "video_id": "9eJpMTfquG8",
+    "video_title": "ADAM KAŁDUŃSKI  – first round (19th Chopin Competition, Warsaw)",
+    "comment_id": "UgzyPpVLvQjK4AvIdB14AaABAg",
+    "text": "Adam Kałduński emerged as a somewhat dark horse in my books. He embodies, in the most visceral sense, the spirit of Chopin the artist: perpetually radical, audacious, metamorphic, performing for himself yet in reaction to the fleeting demands of the moment. For the greater part of the recital, my mind surrendered to the poetry and incantatory magic of the music itself, scarcely troubled by considerations of technique or virtuosity. Not a tremor of nervousness was perceptible. The vitality and freshness of his interpretive choices were utterly compelling.\n\nHe began with a nocturne in C minor, Op. 48-1, rendered with ethereal lucidity and introspective depth thanks to beautiful pedal work. Every agogic turn was a surprise. In the A-flat major waltz, his rebellious musical imagination radiated from every corner of the score. Rubato and tempo were unorthodox, yet they sounded as though conjured by instinct. Kałduński inhabits the precipice of the imagination, in a realm impervious to instruction, accessible only through instinct and audacity.\n\nHis Ballade in F minor was mesmerising. Viewing the Ballades through a 20th century Schenker inspired) lens, I find interpretation interesting when it fuses elements of the Lord, rondo, sonata and variation. In Kałduński’s reading, any narrative veneer was swiftly dispelled, replaced by an intense, brooding psychological inquiry. What a refreshing change for my brain! His musical flow was unerringly organic, the trajectory toward the apotheosis felt both inexorable and natural. The final pianissimo chords had just the right amount of wistfulness to create a momentary illusion of repose, only to be shattered by a wildly anarchic coda that exorcised the work’s latent tensions. This is a performance I have already revisited, and one I shall return to many times more.",
+    "author": "@rlttnthng",
+    "like_count": 49,
+    "published_at": "2025-10-08T00:54:44Z",
+    "updated_at": "2025-10-08T00:54:44Z",
+    "parent_id": null,
+    "sentiment": {
+        "backend": "icl_ollama",
+        "label": "positive",
+        "score": 1.0,
+        "normalized_score": 1.0,
+        "rationale": "The comment highlights Adam Kałduński's profound musical creativity, introspective depth, and ability to evoke emotional resonance through his performances. The text praises his radical spirit, spontaneity, and the vitality of his interpretive choices, indicating a positive sentiment towards his performance."
+    },
+    "sentiment_score": 1.0
+}
+```
+
 
 ### Step 3 - Generate reports (ranking, correlation, score distributions)
 
