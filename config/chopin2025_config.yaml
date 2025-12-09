@@ -1,7 +1,7 @@
 api:
   # API key is best supplied via env var; fallback to literal key if desired.
   key_env: "YOUTUBE_API_KEY"
-  key: "AIzaSyBZQP7WnfLW-tH8Eun-lGIcW0susP942wU"
+  key: ""
 
 scrape:
   # Max number of videos to consider (-1 means no limit).
@@ -34,8 +34,6 @@ competition:
     third: "stage3"
     final: "stage4"
   average_score_key: "cmean"
-  # whether to apply normalization before ranking/correlation: bm25 | shrinkage
-  len_norm_mode: "bm25"
   official_scores_path: "raw_data/official_scores.json"
   # Date filters for preprocessing (inclusive).
   date_filter_start: "2025-10-02"

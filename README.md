@@ -41,9 +41,54 @@ For using Ollama as the sentiment analysis backend, please refer to the [officia
 
 ### Required Inputs
 
-To use this toolkit on a different config than the one currently supplied (for the 2025 Chopin), please provide the following:
+To use this toolkit **on a different config than the one currently supplied (for the 2025 Chopin)**, please provide the following:
 
 - **a config YAML file** (placed under `config/`) similar to `config/chopin2025_config.yaml`. In particular, the YT channel URL, regex pattern for matching videos, and path to official scoring data must be provided. (Remember to pass the `--config <path_to_your_config>` flag to each of the commands)
+
+```yaml
+api:
+  # API key is best supplied via env var; fallback to literal key if desired.
+  key_env: "YOUTUBE_API_KEY"
+  key: ""
+
+scrape:
+  # Max number of videos to consider (-1 means no limit).
+  max_videos: -1
+  # Max comments per video (-1 means no limit).
+  max_comments: -1
+  include_replies: true
+  debug_log_unmatched: true
+  debug_log_path: "data/chopin_2025/unmatched_videos.log"
+  debug_log_all_videos: true
+  debug_log_all_path: "data/chopin_2025/all_channel_videos.log"
+
+
+paths:
+  # Base data directory for raw/processed artifacts.
+  data_dir: "data"
+
+competition:
+  name: "Chopin 2025"
+  channel:
+    # YouTube channel URL (handle form preferred, e.g., https://www.youtube.com/@chopininstitute).
+    url: "https://www.youtube.com/@chopininstitute"
+    # Regex or plain substring to match video titles.
+    keyword_pattern: "(19th Chopin Competition, Warsaw)"
+  # Pattern for parsing video titles into (competitor name, round).
+  title_pattern: "^([A-Z][A-Z\\s]+?)\\s+–\\s+([a-z]+) round"
+  round_to_stage:
+    first: "stage1"
+    second: "stage2"
+    third: "stage3"
+    final: "stage4"
+  average_score_key: "cmean"
+  official_scores_path: "raw_data/official_scores.json"
+  # Date filters for preprocessing (inclusive).
+  date_filter_start: "2025-10-02"
+  date_filter_end: "2025-10-20"
+  ignore_replies_for_processing: true
+```
+
 - **official scoring data in JSON format** similar to `raw_data/official_scores.json`. It should have at least the following minimal structure, although additional keys are allowed to be present (as in the current json, but will not be used):
 
 ```json
@@ -88,7 +133,7 @@ Our code is built using the `click` CLI library, which provides detailed help me
 
 ### Step 1 - Scrapping + preprocessing comments
 
-**You must first acquire an YouTube Data API key** and specify it in the YAML config (under `api.key`) or otherwise in a `YOUTUBE_API_KEY` env variable. 
+**You must first acquire an YouTube Data API key** and specify it in the YAML config (under `api.key`) or otherwise in a `YOUTUBE_API_KEY` env variable. See [Google's official guide](https://developers.google.com/youtube/v3/getting-started) for more details.
 
 Google enforces weekly limits to the number of API credits - this step will consume many credits although we already attempt to minimize the number of requests. If you wish to perform sentiment analysis
 on the provided config (Chopin 2025) only, **scrapped and preprocessed data** is already provided under `data/chopin_2025/` and will be automatically detected by subsequent steps (if left at its current path).
@@ -124,7 +169,7 @@ Some notes on the sentiment scoring and labels:
     - Otherwise, we assume it is neutral (the only other output) and map to 0.5
 - `icl_ollama`: we design this method around feeding the below prompt to `qwen3:0.6b` (small model with relatively quick turn-around time i.e. 6 hours on limited GPU hardware <8GB VRAM)
     - We ask the LLM to classify the comment with a label, provide a confidence score (between 0-1) and also a short rationale (for debugging/interpretablity)
-    - Given this is a modern LLM and we believe it has the capability of doing this, we introduce an additional label "irrelevant" and instructions to only classify comments directly related to the performer or performance. This is useful as, in this particular competition (Chopin 2025), the results were highly contentious and many negative comments were posted regarding the competition itself and jury (which would have unfairly penalized competitors in our scoring, since they would most likely be classified as negative)
+    - Given this is a modern LLM and we believe it has the capability of doing this, we introduce an additional label "irrelevant" and instructions to only classify comments directly related to the performer or performance. This is useful as, in this particular competition (Chopin 2025), the results were highly contentious and many negative comments were posted regarding the competition itself and jury (which would have unfairly penalized competitors in our scoring, since such comments would most likely be classified as negative)
     - Qwen3 models have a tendency to spend too much time repeatively thinking - explicitly telling it to not think seems to cut down on the processing time.
 
 Input prompt to `qwen3:0.6b`:
