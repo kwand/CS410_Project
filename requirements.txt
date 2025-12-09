@@ -1,0 +1,12 @@
+google-api-python-client
+google-auth
+nltk
+transformers
+torch
+sentencepiece
+tqdm
+pyyaml
+click
+numpy
+matplotlib
+pandas

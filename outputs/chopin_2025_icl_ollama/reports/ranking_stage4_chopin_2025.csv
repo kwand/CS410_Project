@@ -1,0 +1,12 @@
+rank,competitor_name,stage,our_score_normalized,our_score,official_mean,official_rank,future_advancements,comment_count,comment_count_inc_likes,advanced,pred_advance
+1,"Yang, William",stage4,0.9673639918641532,0.9831223306894449,20.48,9,0,144,3275.0,True,True
+2,"Alexewicz, Piotr",stage4,0.945407626997671,0.9648818556254065,21.3,3,0,229,4593.0,True,True
+3,"Wang, Zitong",stage4,0.9386138405305327,0.9880847660935625,20.64,8,0,155,2494.0,True,True
+4,"Lu, Eric",stage4,0.8484528807510641,0.9480240014480512,21.41,2,0,247,8278.0,True,True
+5,"Li, Tianyou",stage4,0.8268460433950339,0.9830871212121212,19.09,11,0,78,1318.0,False,True
+6,"Shindo, Miyu",stage4,0.8155420865796255,0.9753637008782046,19.72,10,0,297,11272.0,False,True
+7,"Khrikuli, David",stage4,0.8058249125195542,0.8351629656160459,20.72,7,0,40,2792.0,False,True
+8,"Lyu, Tianyao",stage4,0.7833264024162638,0.9821045824094604,21.25,4,0,552,13473.0,True,True
+9,"Chen, Kevin",stage4,0.7113656709938782,0.994377320261438,21.58,1,0,31,765.0,True,False
+10,"Ong, Vincent",stage4,0.6971717773961597,0.9881683067870549,21.04,5,0,496,19705.0,True,False
+11,"Kuwahara, Shiori",stage4,0.2641851057521594,1.0,21.04,6,0,3,132.0,True,False

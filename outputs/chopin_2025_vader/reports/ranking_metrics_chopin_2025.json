@@ -1,0 +1,40 @@
+{
+  "per_stage": {
+    "stage1": {
+      "precision_at_k": 0.65,
+      "recall": 0.6,
+      "actual_positives": 40,
+      "true_positives_at_k": 13,
+      "true_positives": 24,
+      "k": 20,
+      "ndcg": 0.9224139851127143
+    },
+    "stage2": {
+      "precision_at_k": 0.6,
+      "recall": 0.6,
+      "actual_positives": 20,
+      "true_positives_at_k": 6,
+      "true_positives": 12,
+      "k": 10,
+      "ndcg": 0.8943791268999824
+    },
+    "stage3": {
+      "precision_at_k": 1.0,
+      "recall": 0.8181818181818182,
+      "actual_positives": 11,
+      "true_positives_at_k": 5,
+      "true_positives": 9,
+      "k": 5,
+      "ndcg": 0.9973309718709037
+    },
+    "stage4": {
+      "precision_at_k": 0.75,
+      "recall": 0.75,
+      "actual_positives": 8,
+      "true_positives_at_k": 3,
+      "true_positives": 6,
+      "k": 4,
+      "ndcg": 0.6323944777400778
+    }
+  }
+}

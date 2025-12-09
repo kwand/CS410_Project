@@ -1,0 +1,43 @@
+api:
+  # API key is best supplied via env var; fallback to literal key if desired.
+  key_env: "YOUTUBE_API_KEY"
+  key: "AIzaSyBZQP7WnfLW-tH8Eun-lGIcW0susP942wU"
+
+scrape:
+  # Max number of videos to consider (-1 means no limit).
+  max_videos: -1
+  # Max comments per video (-1 means no limit).
+  max_comments: -1
+  include_replies: true
+  debug_log_unmatched: true
+  debug_log_path: "data/chopin_2025/unmatched_videos.log"
+  debug_log_all_videos: true
+  debug_log_all_path: "data/chopin_2025/all_channel_videos.log"
+
+
+paths:
+  # Base data directory for raw/processed artifacts.
+  data_dir: "data"
+
+competition:
+  name: "Chopin 2025"
+  channel:
+    # YouTube channel URL (handle form preferred, e.g., https://www.youtube.com/@chopininstitute).
+    url: "https://www.youtube.com/@chopininstitute"
+    # Regex or plain substring to match video titles.
+    keyword_pattern: "(19th Chopin Competition, Warsaw)"
+  # Pattern for parsing video titles into (competitor name, round).
+  title_pattern: "^([A-Z][A-Z\\s]+?)\\s+–\\s+([a-z]+) round"
+  round_to_stage:
+    first: "stage1"
+    second: "stage2"
+    third: "stage3"
+    final: "stage4"
+  average_score_key: "cmean"
+  # whether to apply normalization before ranking/correlation: bm25 | shrinkage
+  len_norm_mode: "bm25"
+  official_scores_path: "raw_data/official_scores.json"
+  # Date filters for preprocessing (inclusive).
+  date_filter_start: "2025-10-02"
+  date_filter_end: "2025-10-20"
+  ignore_replies_for_processing: true
